@@ -4,6 +4,8 @@ from PIL import Image
 import numpy as np
 import cv2
 from datetime import datetime
+import os
+import gdown
 
 # --------------------------------
 # PAGE CONFIG
@@ -15,9 +17,18 @@ st.set_page_config(
 )
 
 # --------------------------------
+# AUTO DOWNLOAD MODEL FROM GOOGLE DRIVE
+# --------------------------------
+MODEL_FILE = "brain_tumor_model.h5"
+
+if not os.path.exists(MODEL_FILE):
+    url = "https://drive.google.com/uc?id=1UYrKzU0aItmwAem8_XT3Oy5CLAkOau9I"
+    gdown.download(url, MODEL_FILE, quiet=False)
+
+# --------------------------------
 # LOAD MODEL
 # --------------------------------
-model = tf.keras.models.load_model("brain_tumor_model.h5")
+model = tf.keras.models.load_model(MODEL_FILE)
 
 classes = [
     "Glioma Tumor",
